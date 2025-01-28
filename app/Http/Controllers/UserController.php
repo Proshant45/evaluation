@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -11,13 +13,11 @@ class UserController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return view('index');
+    {   
+        return view('dashboard');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+   
     public function create()
     {
         return view('auth.login');
@@ -35,51 +35,44 @@ class UserController extends Controller
             'phone' => 'required|numeric',
             'password' => 'required|min:6',
         ]);
-        User::create($attributes);
-        dd("User created successfully");
+        $user= User::create($attributes);
+        Auth::login($user);
         return redirect('dashboard');
 
-        
-        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+   
     public function store(Request $request)
-    {
-        dd($request->all());
+    {   
+        $credintials = $request->validate([
+            'login' => 'required',
+            'password' => 'required|min:6',
+        ]);
+        $login = $credintials['login'];
+        $password = $credintials['password'];
+        $user = User::where('userName',$login)->orWhere('phone',$login)->orWhere('email',$login)->first();
+        if($user && Hash::check($password, $user->password)){
+            Auth::login($user);
+            return redirect('dashboard');
+        }
+        else{
+            return back()->withErrors([
+                'login' => 'The provided credentials do not match ',
+            ]);
+        }
+        
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy(){
+        Auth::logout();
+        session()->regenerate();
+        return redirect('/');
     }
+    
+   
 }

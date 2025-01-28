@@ -7,10 +7,11 @@
     @Vite(['resources/js/app.js','resources/css/app.css'])
 </head>
 
-<body>
+<body class="h-full bg-gray-900 ">
     <x-navbar />
-    <div class="container mx-auto">
-        {{ $slot }}
+    <div class="container mx-auto" >
+        {{$slot}}
     </div>
+    <x-footer />
 </body>
 </html>
