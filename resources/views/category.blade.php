@@ -1,6 +1,6 @@
 <x-layout>
     <section class="px-6 py-8">
-        <div class="container mx-auto flex justify-between">
+        <div class="container mx-auto flex justify-between px-10">
             <div>
                 <x-forms.form-heading> Add Category </x-forms.form-heading>
                 <x-forms.form action="/category" method="POST">
@@ -12,16 +12,16 @@
                 <h3 class="text-2xl text-white font-bold"> All Categories </h3>
                     <div class="text-white flex flex-col space-y-5">
                             @foreach ($categories as $category)
-                            <li class="text-white"> 
-                                {{$category->name}} 
+                            <li class="text-white">
+                                {{$category->name}}
                                 <a href="/category/{{$category->id}}/delete" class="text-red-500">Delete</a> |
                                 <a href="/category/{{$category->id}}" class="text-blue-500">Edit</a>
                             </li>
                            @endforeach
                     </div>
-                
+
             </div>
         </div>
-    
-    
+
+
 </x-layout>

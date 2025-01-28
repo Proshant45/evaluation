@@ -5,7 +5,7 @@
                 <h1 class="text-5xl mt-5 mx-5"> Product Image</h1>
             </div>
             <div>
-                <h1 class="text-4xl font-bold text-gray-800  mt-5">{{$product->name}}</h1>
+                <h1 class="text-4xl font-bold text-gray-800 mt-5">{{$product->name}}</h1>
                 <p class="text-white mt-4">{{$product->description}}</p>
                 <p class="text-gray-800 mt-4">${{$product->price}}</p>
                 <form action="/product/{{$product->slug}}/add-to-cart" method="POST">

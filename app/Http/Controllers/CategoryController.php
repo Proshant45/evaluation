@@ -12,9 +12,9 @@ use function Pest\Laravel\get;
 
 class CategoryController extends Controller
 {
-    
+
     public function index()
-    { 
+    {
         $categories = Category::all();
         return view('category',[
             "categories"=>$categories
@@ -22,8 +22,6 @@ class CategoryController extends Controller
     }
 
 
-
-    
     public function store(Request $request)
     {
         $attributes = $request->validate([
@@ -33,35 +31,25 @@ class CategoryController extends Controller
         return redirect('category');
     }
 
- 
+
     public function show($id)
     {   $category = Category::find($id);
         return view('edit-category',["category"=>$category]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update( Request $request, $id)
-    {   
+    {
         $attributes = $request->validate([
             'name' => 'required|min:3'
         ]);
 
         $result = Category::findOrFail($id);
-        $result->update($attributes);       
+        $result->update($attributes);
         return redirect('category');
     }
 
-   
+
     public function destroy($id)
     {
         $category = Category::where('id',$id)->first();
